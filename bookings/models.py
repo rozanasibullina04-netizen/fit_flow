@@ -16,3 +16,6 @@ class Booking(models.Model):
     check_in = models.OneToOneField(CheckIn)
     waiting_list = models.ManyToManyField(WaitingList)
     additional_task = models.TextField()
+    active_subscription = models.DateTimeField()
+    free_seats = models.IntegerField()
+

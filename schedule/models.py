@@ -25,6 +25,8 @@ class TrainingSchedule(models.Model):
     training = models.ManyToManyField(Training)
     start_time = models.TimeField()
     end_time = models.TimeField()
+    workout_list = models.TextField()
+    training_data = models.TextField()
 
 
 class Gym(models.Model):
@@ -34,9 +36,17 @@ class Gym(models.Model):
     admin = models.ForeignKey(Admin)
     trainer = models.ManyToManyField(Trainer)
     client = models.ManyToManyField(Client)
+    capacity = models.IntegerField()
+    description = models.TextField()
 
 
 class ScheduledEvent(models.Model):
     start_time = models.TimeField()
     duration = models.TimeField()
     training_schedule = models.ForeignKey(TrainingSchedule)
+    date = models.DateField()
+    time = models.TimeField()
+    trainer = models.ManyToManyField(Trainer)
+    training = models.ManyToManyField(Training)
+    gym = models.ManyToManyField(Gym)
+    free_seats = models.IntegerField()

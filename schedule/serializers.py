@@ -20,13 +20,25 @@ class TrainingScheduleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GymSerializer(serializers.ModelSerializer):
+class TrainingWorkoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainingSchedule
+        field = ['workout_list']
+
+
+class TrainingWorkoutDetailUpdateDelete(serializers.ModelSerializer):
+    class Meta:
+        model = TrainingSchedule
+        field = ['training_data']
+
+
+class RoomListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gym
-        fields = ['title']
+        fields = ['title', 'capacity', 'description']
 
 
 class ScheduledEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScheduledEvent
-        fields = '__all__'
+        fields = ['date', 'time', 'trainer', 'training', 'gym', 'free_seats']

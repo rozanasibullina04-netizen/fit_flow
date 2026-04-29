@@ -5,7 +5,7 @@ from .models import VisitHistory, CheckIn
 class VisitHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = VisitHistory
-        fields = '__all__'
+        fields = ['date_and_time', 'check_in_time', 'trainer', 'training', 'gym']
 
 
 class CheckInSerializer(serializers.ModelSerializer):

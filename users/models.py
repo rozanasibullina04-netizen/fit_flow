@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from rest_framework.fields import CharField, DateTimeField
+from django.db.models.fields import TextField
+from rest_framework.fields import CharField, DateTimeField, IntegerField
 from bookings.models import Booking
 from notifications.models import Notifications
 from schedule.models import Training
@@ -10,9 +11,15 @@ from subscriptions.models import Subscriptions
 # Create your models here.
 
 class Trainer(models.Model):
-    name = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255)
+    photo = models.ImageField()
+    trainer_id = models.IntegerField()
+    specialization = models.TextField()
+    experience = models.IntegerField()
+    rating = models.IntegerField()
     # admin = models.ForeignKey(Admin, related_name='admin', on_delete=models.CASCADE)
     notifications = models.ManyToManyField(Notifications)
+    trainer_data = TextField()
     training = models.ForeignKey(Training)
 
 
@@ -24,6 +31,7 @@ class Admin(models.Model):
     notifications = models.ForeignKey(Notifications)
     check_in = models.DateTimeField()
     training_schedule = models.TextField()
+    user_list = models.TextField()
 
 
 class Client(models.Model):

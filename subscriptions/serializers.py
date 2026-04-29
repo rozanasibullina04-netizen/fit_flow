@@ -5,10 +5,31 @@ from .models import Subscriptions, SubscriptionsFreeze
 class SubscriptionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscriptions
-        fields = ['title']
+        fields = ['title', 'subscriptions_type', 'start_date', 'end_date', 'time_limit']
 
 
-class SubscriptionsFreezeSerializer(serializers.ModelSerializer):
+class SubscriptionsDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SubscriptionsFreeze
-        fields = '__all__'
+        model = Subscriptions
+        field = ['subscriptions_type', 'status', 'started_at', 'expires_at', 'remaining_visits']
+
+
+# class SubscriptionsFreezeSerializer(serializers.ModelSerializer):
+#     subscriptions = SubscriptionsFreeze(many=True)
+#
+#
+#     class Meta:
+#         model = SubscriptionsFreeze
+#         fields = ['is_active']
+
+
+class SubscriptionsTypeSerializer(serializers.ModelSerializers):
+    class Meta:
+        model = Subscriptions
+        fields = ['title', 'price', 'validity_period', 'visits_limit', 'description']
+
+
+class SubscriptionsTypeDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscriptions
+        field = '__all__'

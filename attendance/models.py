@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models import ManyToManyField
 from rest_framework.fields import DateTimeField, TimeField, UUIDField
-from schedule.models import Training
+from subscriptions.models import Subscriptions
+from schedule.models import Training, Gym
 from users.models import Trainer, Admin, Client
 
 
@@ -13,8 +14,10 @@ class VisitHistory(models.Model):
     training_id = models.IntegerField()
     check_in_time = models.DateTimeField()
     trainer = models.ManyToManyField(Trainer)
+    subscriptions = models.ManyToManyField(Subscriptions)
     admin = models.ForeignKey(Admin)
     client = models.ManyToManyField(Client)
+    gym = models.ManyToManyField(Gym)
 
 class CheckIn(models.Model):
 #    subscription_checks =

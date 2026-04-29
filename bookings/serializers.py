@@ -8,7 +8,7 @@ class WaitingListSerializer(serializers.ModelSerializer):
         fields = ['creation_time']
 
 
-class BookingSerializer(serializers.ModelSerializer):
+class BookingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
-        fields = '__all__'
+        fields = ['active_subscription', 'free_seats']

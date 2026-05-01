@@ -1,21 +1,37 @@
 from django.db import models
-from django.db.models import ForeignKey, ManyToManyField, OneToOneField
-from django.db.models.fields import TextField, TimeField
-from attendance.models import CheckIn
-from users.models import Client
 
-
-# Create your models here.
 
 class WaitingList(models.Model):
-    creation_time = models.TimeField()
+    client = models.ForeignKey(
+        "users.Client",
+        on_delete=models.CASCADE,
+        related_name="waiting_list_entries",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Booking(models.Model):
-    client = models.ForeignKey(Client)
-    check_in = models.OneToOneField(CheckIn)
-    waiting_list = models.ManyToManyField(WaitingList)
-    additional_task = models.TextField()
-    active_subscription = models.DateTimeField()
-    free_seats = models.IntegerField()
-
+    client = models.ForeignKey(
+        "users.Client",
+        on_delete=models.CASCADE,
+        related_name="bookings",
+    )
+    check_in = models.OneToOneField(
+        "attendance.CheckIn",
+        on_delete=models.CASCADE,
+        related_name="booking",
+        null=True,
+        blank=True,
+    )
+    waiting_list = models.ManyToManyField(
+        WaitingList,
+        blank=True,
+        related_name="bookings",
+    )
+    additional_task = models.TextField(blank=True)
+    active_subscription = models.ForeignKey(
+        "subscriptions.Subscriptions",
+        on_delete=models.CASCADE,
+        related_name="bookings",
+    )
+    free_seats = models.PositiveIntegerField()

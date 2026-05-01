@@ -1,29 +1,57 @@
 from django.db import models
-from django.db.models import ManyToManyField
-from rest_framework.fields import DateTimeField, TimeField, UUIDField
-from subscriptions.models import Subscriptions
-from schedule.models import Training, Gym
-from users.models import Trainer, Admin, Client
 
-
-# Create your models here.
 
 class VisitHistory(models.Model):
-    training = models.ManyToManyField(Training)
-    date_and_time = models.DateTimeField()
-    training_id = models.IntegerField()
-    check_in_time = models.DateTimeField()
-    trainer = models.ManyToManyField(Trainer)
-    subscriptions = models.ManyToManyField(Subscriptions)
-    admin = models.ForeignKey(Admin)
-    client = models.ManyToManyField(Client)
-    gym = models.ManyToManyField(Gym)
+    training = models.ForeignKey(
+        "schedule.Training",
+        on_delete=models.CASCADE,
+        related_name="visit_histories",
+    )
+    check_in = models.OneToOneField(
+        "CheckIn",
+        on_delete=models.CASCADE,
+        related_name="visit_history",
+        null=True,
+        blank=True,
+    )
+    checked_in_at = models.DateTimeField()
+    trainer = models.ForeignKey(
+        "users.Trainer",
+        on_delete=models.CASCADE,
+        related_name="visit_histories",
+    )
+    subscription = models.ForeignKey(
+        "subscriptions.Subscriptions",
+        on_delete=models.CASCADE,
+        related_name="visit_histories",
+    )
+    admin = models.ForeignKey(
+        "users.Admin",
+        on_delete=models.CASCADE,
+        related_name="visit_histories",
+    )
+    client = models.ForeignKey(
+        "users.Client",
+        on_delete=models.CASCADE,
+        related_name="visit_histories",
+    )
+    gym = models.ForeignKey(
+        "schedule.Gym",
+        on_delete=models.CASCADE,
+        related_name="visit_histories",
+    )
+
 
 class CheckIn(models.Model):
-#    subscription_checks =
-    visit_history = models.ManyToManyField(VisitHistory)
-    client_id = models.IntegerField()
-    timestamp = models.TimeField()
-    active_subscription = models.DateTimeField()
-#    registration_for_training =
+    client = models.ForeignKey(
+        "users.Client",
+        on_delete=models.CASCADE,
+        related_name="check_ins",
+    )
+    checked_in_at = models.DateTimeField()
+    active_subscription = models.ForeignKey(
+        "subscriptions.Subscriptions",
+        on_delete=models.CASCADE,
+        related_name="check_ins",
+    )
     time_limit = models.TimeField()

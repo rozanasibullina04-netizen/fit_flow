@@ -1,13 +1,28 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import ScheduledEvent, Gym, TrainingSchedule
-from .serializers import ScheduledEventSerializer, RoomListSerializer, TrainingWorkoutSerializer, TrainingWorkoutDetailUpdateDelete
+from .models import Training, ScheduledEvent, TrainingType, Gym, TrainingSchedule
+from .serializers import TrainingSerializer, ScheduledEventSerializer, TrainingTypeSerializer, TrainingScheduleSerializer, \
+    GymSerializer, TrainingWorkoutSerializer, TrainingWorkoutDetailUpdateDelete
 
-# Create your views here.
 
-class ScheduleView(generics.ListAPIView):
+class TrainingView(generics.ListAPIView):
+    queryset = Training.objects.all()
+    serializer_class = TrainingSerializer
+
+
+class ScheduledEventView(generics.ListAPIView):
     queryset = ScheduledEvent.objects.all()
     serializer_class = ScheduledEventSerializer
+
+
+class TrainingTypeView(generics.ListAPIView):
+    queryset = TrainingType.objects.all()
+    serializer_class = TrainingTypeSerializer
+
+
+class ScheduleView(generics.ListAPIView):
+    queryset = TrainingSchedule.objects.all()
+    serializer_class = TrainingScheduleSerializer
 
 
 class WorkoutListCreateView(generics.ListCreateAPIView):
@@ -22,4 +37,4 @@ class WorkoutDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
 
 class RoomListView(generics.ListAPIView):
     queryset = Gym.objects.all()
-    serializer_class = RoomListSerializer
+    serializer_class = GymSerializer

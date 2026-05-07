@@ -8,7 +8,13 @@ class VisitHistorySerializer(serializers.ModelSerializer):
         fields = ['date_and_time', 'check_in_time', 'trainer', 'training', 'gym']
 
 
-class CheckInSerializer(serializers.ModelSerializer):
+class AdminVisitHistorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = CheckIn
-        fields = '__all__'
+        model = VisitHistory
+        field = ['client', 'training', 'check_in_time', 'subscriptions']
+
+
+# class CheckInSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CheckIn
+#         fields = '__all__'

@@ -38,13 +38,7 @@ class AdminSubscriptionListSerializer(serializers.ModelSerializer):
 class AdminSubscriptionUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
-        field = ['updated_subscription']
-
-
-class AdminVisitHistorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Admin
-        field = ['client', 'training', 'check_in_time', 'subscriptions']
+        field = ['subscription']
 
 
 class ClientSerializer(serializers.ModelSerializer):

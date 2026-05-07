@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'bookings',
     'attendance',
     'notifications',
+    'payments',
+    'contacts',
     'rest_framework',
     'drf_yasg',
 ]

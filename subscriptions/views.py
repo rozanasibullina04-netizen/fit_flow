@@ -18,11 +18,6 @@ class SubscriptionsDetailView(generics.RetrieveAPIView):
     serializer_class = SubscriptionsDetailSerializer
 
 
-# class SubscriptionsFreezeView(APIView):
-#     queryset = SubscriptionsFreeze.objects.all()
-#     serializer_class = SubscriptionsFreezeSerializer
-
-
 class SubscriptionsTypeListView(generics.ListAPIView):
     queryset = Subscriptions.objects.all()
     serializer_class = SubscriptionsTypeSerializer
@@ -31,6 +26,10 @@ class SubscriptionsTypeListView(generics.ListAPIView):
 class SubscriptionsTypeDetailView(generics.RetrieveAPIView):
     queryset = Subscriptions.objects.all()
     serializer_class = SubscriptionsTypeDetailSerializer
+
+
+class SubscriptionFreezeView(APIView):
+    pass
 
 
 class SubscriptionUnfreezeView(APIView):

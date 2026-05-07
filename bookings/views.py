@@ -1,22 +1,25 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.views import APIView
+from .models import WaitingList, Booking
+from .serializers import WaitingListSerializer, BookingSerializer
 
-from .models import Booking
-from .serializers import BookingListSerializer
 
-# Create your views here.
+class WaitingListView(generics.ListAPIView):
+    queryset = WaitingList.objects.all()
+    serializer_class = WaitingListSerializer
+
 
 class BookingListCreateView(generics.ListCreateAPIView):
     queryset = Booking.objects.all()
-    serializer_class = BookingListSerializer
+    serializer_class = BookingSerializer
 
 class BookingWaitAPIView(generics.ListAPIView):
     queryset = Booking.objects.all()
-    serializer_class = BookingListSerializer
+    serializer_class = BookingSerializer
 
 
-class BookingCanselView(APIView):
+class BookingCancelView(APIView):
     pass
 
 

@@ -1,15 +1,18 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.views import APIView
-
 from .models import VisitHistory
-from .serializers import VisitHistorySerializer
+from .serializers import VisitHistorySerializer, AdminVisitHistorySerializer
 
-# Create your views here.
 
 class VisitHistoryView(generics.ListAPIView):
     queryset = VisitHistory.objects.all()
     serializer_class = VisitHistorySerializer
+
+
+class AdminVisitHistoryView(generics.ListAPIView):
+    queryset = VisitHistory.objects.all()
+    serializer_class = AdminVisitHistorySerializer
 
 
 class QRCodeView(APIView):

@@ -1,7 +1,12 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
 class WaitingList(models.Model):
+    training = models.ForeignKey(
+        "users.Training",
+        on_delete=models.CASCADE,
+        related_name="waiting_list_entries",)
     client = models.ForeignKey(
         "users.Client",
         on_delete=models.CASCADE,
@@ -35,3 +40,8 @@ class Booking(models.Model):
         related_name="bookings",
     )
     free_seats = models.PositiveIntegerField()
+    def clean(self):
+        if not self.additional_task.strip():
+            raise ValidationError("additional task должно быть заполнено")
+        if not self.free_seats.strip():
+            raise ValidationError("free seats не должен быть отрицательным")

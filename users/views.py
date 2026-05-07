@@ -4,11 +4,8 @@ from rest_framework.views import APIView
 
 from .models import Trainer, Admin, Client
 from .serializers import TrainerSerializer, TrainerDetailSerializer, AdminSerializer, AdminUserSerializer, \
-    ClientSerializer, AdminSubscriptionListSerializer, AdminSubscriptionUpdateSerializer, AdminVisitHistorySerializer
-from rest_framework import viewsets
+    ClientSerializer, AdminSubscriptionListSerializer, AdminSubscriptionUpdateSerializer
 
-
-# Create your views here.
 
 class TrainerListView(generics.ListAPIView):
     queryset = Trainer.objects.all()
@@ -38,11 +35,6 @@ class AdminSubscriptionListView(generics.ListAPIView):
 class AdminSubscriptionUpdateView(generics.UpdateAPIView):
     queryset = Admin.objects.all()
     serializer_class = AdminSubscriptionUpdateSerializer
-
-
-class AdminVisitHistoryView(generics.ListAPIView):
-    queryset = Admin.objects.all()
-    serializer_class = AdminVisitHistorySerializer
 
 
 class ClientListView(generics.ListAPIView):

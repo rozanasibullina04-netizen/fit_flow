@@ -11,13 +11,13 @@ class TrainingSerializer(serializers.ModelSerializer):
 class TrainingTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrainingType
-        fields = ['title']
+        fields = '__all__'
 
 
 class TrainingScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrainingSchedule
-        fields = '__all__'
+        fields = ['training_date', 'start_time', 'end_time', 'trainer', 'workout_list', 'training', 'gym', 'free_seats']
 
 
 class TrainingWorkoutSerializer(serializers.ModelSerializer):
@@ -32,7 +32,7 @@ class TrainingWorkoutDetailUpdateDelete(serializers.ModelSerializer):
         field = ['training_data']
 
 
-class RoomListSerializer(serializers.ModelSerializer):
+class GymSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gym
         fields = ['title', 'capacity', 'description']
@@ -41,4 +41,4 @@ class RoomListSerializer(serializers.ModelSerializer):
 class ScheduledEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScheduledEvent
-        fields = ['date', 'time', 'trainer', 'training', 'gym', 'free_seats']
+        fields = ['duration', 'free_seats']

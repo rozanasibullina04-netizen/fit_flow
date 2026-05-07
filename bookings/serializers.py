@@ -5,10 +5,10 @@ from .models import WaitingList, Booking
 class WaitingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = WaitingList
-        fields = ['creation_time']
+        fields = ['training', 'client', 'created_at']
 
 
-class BookingListSerializer(serializers.ModelSerializer):
+class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
-        fields = ['active_subscription', 'free_seats']
+        fields = ['client', 'waiting_list', 'additional_task', 'free_seats']

@@ -12,3 +12,6 @@ class Payment(models.Model):
         blank=True,
     )
     payment_list = models.TextField()
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)

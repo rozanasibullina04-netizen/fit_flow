@@ -11,6 +11,9 @@ class TrainingType(models.Model):
            raise ValidationError( "Название не должно быть пустым")
         if self.duration.strip() < 0:
             raise ValidationError("duration не должен быть отрицательным")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Training(models.Model):
@@ -32,6 +35,9 @@ class Training(models.Model):
            raise ValidationError( "subscriptions type не должно быть пустым")
         if not self.max_capacity.strip() < 0:
             raise ValidationError("max capacity не должен быть отрицательным")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class TrainingSchedule(models.Model):
@@ -60,6 +66,9 @@ class TrainingSchedule(models.Model):
             raise ValidationError("training data не должен быть пустым")
         if self.workout_list.strip():
             raise ValidationError("workout list не должен быть пустым")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Gym(models.Model):
@@ -90,6 +99,9 @@ class Gym(models.Model):
            raise ValidationError( "equipment не должно быть пустым")
         if not self.capacity.strip() < 0:
             raise ValidationError("capacity не должен быть отрицательным")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class ScheduledEvent(models.Model):
@@ -123,3 +135,6 @@ class ScheduledEvent(models.Model):
     def clean(self):
         if self.duration.strip() < 0:
             raise ValidationError("duration не должен быть отрицательным")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)

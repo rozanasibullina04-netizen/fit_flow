@@ -6,10 +6,12 @@ from django.utils import timezone
 
 
 class Trainer(models.Model):
-    full_name = models.CharField(max_length=150)
+    full_name = models.CharField(max_length=255)
     photo = models.ImageField(upload_to="trainers/", blank=True, null=True)
     specialization = models.TextField()
-    experience = models.PositiveIntegerField()
+    experience = models.PositiveIntegerField(default=0, validators=[
+        MinValueValidator(1),
+    ])
     rating = models.PositiveIntegerField(default=0, validators=[
         MinValueValidator(1),
         MaxValueValidator(5)
@@ -31,7 +33,10 @@ class Trainer(models.Model):
         if not self.specialization.strip():
             raise ValidationError("Поле specialization не должно быть пустым")
         if self.experience > timezone.now().date():
-            raise ValidationError("experience должен быть положительным")
+            raise ValidationError("Опыт должен быть положительным")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Admin(models.Model):
@@ -42,7 +47,7 @@ class Admin(models.Model):
         null=True,
         blank=True,
     )
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=255)
     trainer = models.ForeignKey(
         Trainer,
         related_name="admins",
@@ -69,11 +74,14 @@ class Admin(models.Model):
     def clean(self):
         if not self.name.strip():
            raise ValidationError( "Имя не должно быть пустым")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=255)
     trainer = models.ManyToManyField(
         Trainer,
         related_name="clients",
@@ -102,3 +110,6 @@ class Client(models.Model):
     def clean(self):
        if not self.name.strip():
            raise ValidationError( "Имя не должно быть пустым")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)

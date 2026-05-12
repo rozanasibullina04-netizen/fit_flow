@@ -13,3 +13,6 @@ class Notifications(models.Model):
             raise ValidationError("Название не должно быть пустым")
         if not self.message.strip():
             raise ValidationError("Поле massage не должно быть пустым")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)

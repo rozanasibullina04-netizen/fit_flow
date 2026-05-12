@@ -14,7 +14,7 @@ class AdminVisitHistorySerializer(serializers.ModelSerializer):
         field = ['client', 'training', 'check_in_time', 'subscriptions']
 
 
-# class CheckInSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = CheckIn
-#         fields = '__all__'
+class CheckInSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CheckIn
+        fields = ['client', 'checked_in_at', 'active_subscription', 'time_limit']

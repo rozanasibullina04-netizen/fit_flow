@@ -3,5 +3,5 @@ from .views import ContactListView
 
 
 urlpatterns = [
-    path('api/v1/contacts/', ContactListView.as_view(), name='contacts')
+    path("/api/v1/contacts/", ContactListView.as_view(), name="contacts")
 ]

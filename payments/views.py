@@ -1,10 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
-
 from .models import Payment
-from .serializer import PaymentListSerializer
+from .serializers import PaymentListSerializer
 
-# Create your views here.
 
 class PaymentListView(viewsets.ModelViewSet):
     queryset = Payment.objects.all()

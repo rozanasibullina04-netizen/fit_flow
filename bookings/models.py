@@ -4,7 +4,7 @@ from django.db import models
 
 class WaitingList(models.Model):
     training = models.ForeignKey(
-        "users.Training",
+        "schedule.Training",
         on_delete=models.CASCADE,
         related_name="waiting_list_entries",)
     client = models.ForeignKey(
@@ -43,5 +43,8 @@ class Booking(models.Model):
     def clean(self):
         if not self.additional_task.strip():
             raise ValidationError("additional task должно быть заполнено")
-        if not self.free_seats.strip():
+        if not self.free_seats.strip() < 0:
             raise ValidationError("free seats не должен быть отрицательным")
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)

@@ -3,6 +3,12 @@ from .models import Subscriptions, SubscriptionsFreeze
 
 
 class SubscriptionsSerializer(serializers.ModelSerializer):
+    def validate_title(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("Название не может быть пустым")
+        return value
+
+
     class Meta:
         model = Subscriptions
         fields = ['title', 'status', 'subscriptions_type', 'start_date', 'end_date', 'time_limit']

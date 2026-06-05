@@ -67,6 +67,8 @@ class Admin(models.Model):
         "notifications.Notifications",
         on_delete=models.CASCADE,
         related_name="admins",
+        null=True,
+        blank=True,
     )
     check_in = models.DateTimeField(null=True, blank=True)
     training_schedule = models.TextField(blank=True)

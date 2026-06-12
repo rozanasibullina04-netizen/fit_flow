@@ -1,10 +1,9 @@
 from rest_framework import generics
-from rest_framework.views import APIView
 from .models import WaitingList, Booking
 from .serializers import WaitingListSerializer, BookingSerializer
 
 
-class WaitingListView(generics.ListAPIView):
+class WaitingListView(generics.ListCreateAPIView):
     queryset = WaitingList.objects.all()
     serializer_class = WaitingListSerializer
 
@@ -13,14 +12,18 @@ class BookingListCreateView(generics.ListCreateAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
 
-class BookingWaitAPIView(generics.ListAPIView):
+
+class BookingDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    lookup_field = "id"
 
 
-class BookingCancelView(APIView):
-    pass
+class BookingWaitAPIView(generics.ListCreateAPIView):
+    serializer_class = WaitingListSerializer
 
+    def get_queryset(self):
+        return WaitingList.objects.filter(training_id=self.kwargs["training_id"])
 
-class BookingWaitlistView(APIView):
-    pass
+    def perform_create(self, serializer):
+        serializer.save(training_id=self.kwargs["training_id"])

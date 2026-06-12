@@ -1,24 +1,33 @@
 from rest_framework import serializers
-from .models import WaitingList, Booking
+
+from .models import Booking, WaitingList
 
 
 class WaitingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = WaitingList
-        fields = ['training', 'client', 'created_at']
+        fields = "__all__"
 
 
 class BookingSerializer(serializers.ModelSerializer):
-    def validate_additional_task(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("additional task должно быть заполнено")
-        return value
-    def validate_free_seats(self, value):
-        if value < 0:
-            raise serializers.ValidationError("free seats не должен быть отрицательным")
-        return value
-
-
     class Meta:
         model = Booking
-        fields = ['client', 'waiting_list', 'additional_task', 'active_subscription', 'free_seats']
+        fields = "__all__"
+
+    def validate_additional_task(self, value):
+        value = value.strip()
+        return value
+
+    def validate(self, attrs):
+        client = attrs.get("client") or getattr(self.instance, "client", None)
+        subscription = attrs.get("active_subscription") or getattr(self.instance, "active_subscription", None)
+        check_in = attrs.get("check_in") or getattr(self.instance, "check_in", None)
+        if client and subscription and getattr(subscription, "client_id", None) not in (None, client.id):
+            raise serializers.ValidationError(
+                {"active_subscription": "Подписка должна принадлежать выбранному клиенту."}
+            )
+        if client and check_in and check_in.client_id != client.id:
+            raise serializers.ValidationError(
+                {"check_in": "Отметка посещения должна принадлежать выбранному клиенту."}
+            )
+        return attrs

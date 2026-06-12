@@ -1,8 +1,6 @@
-from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.views import APIView
-from .models import VisitHistory
-from .serializers import VisitHistorySerializer, AdminVisitHistorySerializer
+from .models import CheckIn, VisitHistory
+from .serializers import AdminVisitHistorySerializer, CheckInSerializer, VisitHistorySerializer
 
 
 class VisitHistoryView(generics.ListAPIView):
@@ -10,18 +8,23 @@ class VisitHistoryView(generics.ListAPIView):
     serializer_class = VisitHistorySerializer
 
 
-class AdminVisitHistoryView(generics.ListAPIView):
+class AdminVisitHistoryView(generics.ListCreateAPIView):
     queryset = VisitHistory.objects.all()
     serializer_class = AdminVisitHistorySerializer
 
 
-class QRCodeView(APIView):
-    pass
+class VisitHistoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = VisitHistory.objects.all()
+    serializer_class = VisitHistorySerializer
+    lookup_field = "id"
 
 
-class CheckInView(APIView):
-    pass
+class CheckInView(generics.ListCreateAPIView):
+    queryset = CheckIn.objects.all()
+    serializer_class = CheckInSerializer
 
 
-class CheckInTimeView(APIView):
-    pass
+class CheckInDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CheckIn.objects.all()
+    serializer_class = CheckInSerializer
+    lookup_field = "id"

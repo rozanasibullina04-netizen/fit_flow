@@ -1,77 +1,73 @@
 from rest_framework import serializers
-from .models import Trainer, Admin, Client
+
+from .models import Admin, Client, Trainer
 
 
 class TrainerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trainer
+        fields = "__all__"
+
     def validate_full_name(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("Имя не может быть пустым")
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("ФИО не может быть пустым.")
+        if value.isdigit():
+            raise serializers.ValidationError("ФИО не может состоять только из цифр.")
         return value
+
     def validate_specialization(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("Поле specialization не может быть пустым")
-        return value
-    def validate_rating(self, value):
-        if value < 1 or value > 5:
-            raise serializers.ValidationError("Оценка должна быть от 1 до 5")
-        return value
-    def validate_experience(self, value):
-        if value < 1:
-            raise serializers.ValidationError("Опыт должен быть больше 1 года")
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("Специализация не может быть пустой.")
         return value
 
 
-    class Meta:
-        model = Trainer
-        fields = ['full_name', 'photo', 'trainer_id', 'specialization', 'experience', 'rating']
-
-
-class TrainerDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Trainer
-        fields = ['trainer_data', 'training']
+class TrainerDetailSerializer(TrainerSerializer):
+    pass
 
 
 class AdminSerializer(serializers.ModelSerializer):
-    trainer = TrainerSerializer(many=True)
-    def validate_name(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("Имя не может быть пустым")
-        return value
-
-
     class Meta:
         model = Admin
-        fields = ['name']
+        fields = "__all__"
+
+    def validate_name(self, value):
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("Имя не может быть пустым.")
+        if value.isdigit():
+            raise serializers.ValidationError("Имя не может состоять только из цифр.")
+        return value
 
 
 class AdminUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
-        field = ['user_list']
+        fields = ["user_list"]
 
 
 class AdminSubscriptionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
-        field = ['subscriptions']
+        fields = ["subscriptions"]
 
 
 class AdminSubscriptionUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
-        field = ['subscription']
+        fields = ["subscriptions"]
 
 
 class ClientSerializer(serializers.ModelSerializer):
-    trainer = TrainerSerializer(many=True)
-    admin = AdminSerializer(many=True)
-    def validate_name(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("Имя не может быть пустым")
-        return value
-
-
     class Meta:
         model = Client
-        fields = ['name']
+        fields = "__all__"
+
+    def validate_name(self, value):
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("Имя не может быть пустым.")
+        if value.isdigit():
+            raise serializers.ValidationError("Имя не может состоять только из цифр.")
+        return value

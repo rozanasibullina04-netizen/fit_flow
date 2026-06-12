@@ -1,13 +1,15 @@
-from rest_framework import viewsets
-from rest_framework.views import APIView
+from rest_framework import generics
+
 from .models import Payment
 from .serializers import PaymentListSerializer
 
 
-class PaymentListView(viewsets.ModelViewSet):
+class PaymentListView(generics.ListCreateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentListSerializer
 
 
-class PaymentCreateView(APIView):
-    pass
+class PaymentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentListSerializer
+    lookup_field = "id"

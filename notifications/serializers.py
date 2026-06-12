@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Notifications
 
 
@@ -15,4 +16,16 @@ class NotificationsListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notifications
-        fields = ['title', 'message', 'notifications_list', 'is_read', 'created_at']
+        fields = "__all__"
+
+    def validate_title(self, value):
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("Заголовок не может быть пустым.")
+        return value
+
+    def validate_message(self, value):
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("Сообщение не может быть пустым.")
+        return value

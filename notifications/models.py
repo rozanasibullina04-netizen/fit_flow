@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 
 
 class Notifications(models.Model):
@@ -7,12 +8,19 @@ class Notifications(models.Model):
     message = models.TextField()
     notifications_list = models.TextField(blank=True)
     is_read = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+
     def clean(self):
-        if not self.title.strip():
-            raise ValidationError("Название не должно быть пустым")
-        if not self.message.strip():
-            raise ValidationError("Поле massage не должно быть пустым")
+        errors = {}
+        self.title = self.title.strip()
+        self.message = self.message.strip()
+        if not self.title:
+            errors["title"] = "Заголовок не может быть пустым."
+        if not self.message:
+            errors["message"] = "Сообщение не может быть пустым."
+        if errors:
+            raise ValidationError(errors)
+
     def save(self, *args, **kwargs):
         self.full_clean()
-        super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)
